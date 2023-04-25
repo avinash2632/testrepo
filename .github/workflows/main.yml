@@ -24,7 +24,7 @@ jobs:
           docker push ${{ secrets.USERNAME }}/my-image:latest
       - name: Set up Kubeconfig
         env:
-          KUBECONFIG_FILE: ${{ secrets.KUBE }}
+          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
         run: |
           echo "$KUBECONFIG" > kubeconfig.yaml
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
