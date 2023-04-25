@@ -16,12 +16,10 @@ spec:
     spec:
       containers:
       - name: java-app
-        image: myimage
+        image: avinash263/myjavasampleimage
         ports:
         - containerPort: 8080
-        env:
-        - name: JAVA_OPTS
-          value: "-Xmx256m"
+       
 ---
 apiVersion: v1
 kind: Service
