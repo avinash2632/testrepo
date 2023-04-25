@@ -27,6 +27,6 @@ jobs:
           KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
         run: |
           echo "$KUBECONFIG" > kubeconfig.yaml
-          echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
+          echo "KUBECONFIG_FILE=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       - name: Deploy to Kubernetes
         run: kubectl apply -f deployment.yml
