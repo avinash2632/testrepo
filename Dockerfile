@@ -1,13 +1,10 @@
-
-
 FROM openjdk:8-jdk-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY HelloWorld.java .
 
-RUN ./gradlew build
+RUN javac HelloWorld.java
 
-EXPOSE 8080
+CMD ["java", "HelloWorld"]
 
-CMD ["java", "-jar", "build/libs/app.jar"]
