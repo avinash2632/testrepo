@@ -1,4 +1,4 @@
-name: CI/CDPIPELINE
+name: CI/CD
 
 on:
   push:
@@ -18,10 +18,10 @@ jobs:
         run: echo ${{ secrets.PASSWORD }} | docker login -u ${{ secrets.USERNAME }} --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-image:latest .
+        run: docker build -t ${{ secrets.USERNAME }}/my-image:latest .
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-image:latest
+          docker push ${{ secrets.USERNAME }}/my-image:latest
       - name: Set up Kubeconfig
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBE }}
