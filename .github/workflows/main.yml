@@ -23,8 +23,6 @@ jobs:
       - name: Push Docker Image
         run: docker push my-image
       - name: Deploy to Kubernetes
-        env:
-          KUBE: ${{ secrets.KUBE }}
+ 
         run: kubectl apply -f deployment.yaml
-        env:
-          KUBE: ${{ secrets.KUBE }}
+
