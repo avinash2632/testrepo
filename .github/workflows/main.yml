@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  PROJECT_NAME: your-project-name
+  PROJECT_NAME: testrepo
 
 jobs:
   build:
