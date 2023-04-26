@@ -18,7 +18,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: docker login -u $USERNAME -p $PASSWORD
       - name: Push Docker Image
-        run: docker push ${{ secrets.USERNAME }}/my-image:latest
+        run: docker push ${{ secrets.USERNAME }}/my-image1:latest
       - name: Deploy to Kubernetes
         env:
           KUBE: ${{ secrets.KUBE }}
