@@ -13,10 +13,7 @@ jobs:
       - name: Build Docker Image
         run: docker build -t ${{ secrets.USERNAME }}/my-image1:latest .
       - name: Login to Docker Registry
-        env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-        run: docker login -u $USERNAME -p $PASSWORD
+        run: docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
       - name: Push Docker Image
         run: docker push ${{ secrets.USERNAME }}/my-image1:latest
       - name: Deploy to Kubernetes
