@@ -31,5 +31,8 @@ jobs:
         run: |
           echo "$KUBECONFIG_FILE" > kubeconfig.yaml
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
-      - name: Deploy to Kubernetes
-        run: kubectl apply -f deployment.yml
+      - name: Replace image name and Deploy to Kubernetes
+        run: |
+          export IMAGE_NAME="${{ secrets.USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }}"
+          sed "s|IMAGE_SAMPLE|$IMAGE_NAME|g" deployment.yml > deployment_ready.yml
+          kubectl apply -f deployment_ready.yml
