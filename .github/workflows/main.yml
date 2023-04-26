@@ -1,4 +1,5 @@
-name: CI/CD Pipeline
+
+name: CI/CD
 
 on:
   push:
@@ -10,13 +11,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Login to Docker registry
+        run: echo ${{ secrets.PASSWORD }} | docker login -u ${{ secrets.USERNAME }} --password-stdin
+
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.USERNAME }}/my-image1:latest .
-      - name: Login to Docker Registry
-        run: docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+        run: docker build -t ${{ secrets.USERNAME }}/my-image:latest .
       - name: Push Docker Image
-        run: docker push ${{ secrets.USERNAME }}/my-image1:latest
-      - name: Deploy to Kubernetes
+        run: |
+          docker push ${{ secrets.USERNAME }}/my-image:latest
+      - name: Set up Kubeconfig
         env:
-          KUBE: ${{ secrets.KUBE }}
-        run: kubectl apply -f deployment.yaml --kubeconfig $KUBE
+          KUBECONFIG_FILE: ${{ secrets.KUBE }}
+        run: |
+          echo "$KUBECONFIG_FILE" > kubeconfig.yaml
+          echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f deployment.yml
+
+
+
