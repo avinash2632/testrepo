@@ -11,14 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        run: docker build -t $USERNAME/my-image1:latest .
+        run: docker build -t ${{ secrets.USERNAME }}/my-image1:latest .
       - name: Login to Docker Registry
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: docker login -u $USERNAME -p $PASSWORD
       - name: Push Docker Image
-        run: docker push $USERNAME/my-image:latest
+        run: docker push ${{ secrets.USERNAME }}/my-image:latest
       - name: Deploy to Kubernetes
         env:
           KUBE: ${{ secrets.KUBE }}
