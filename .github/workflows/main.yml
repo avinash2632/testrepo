@@ -18,13 +18,13 @@ jobs:
         with:
           java-version: 1.8
       - name: Login to Docker registry
-        run: echo ${{ secrets.PASSWORD }} | docker login -u ${{ secrets.USERNAME }} --password-stdin
+        run: echo ${{ secrets.PASSWORD }} | docker login {{ secrets.REGISTRY }}-u ${{ secrets.USERNAME }} --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }} .
+        run: docker build -t ${{ secrets.REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }} .
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
       - name: Set up Kubeconfig
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBE }}
@@ -33,6 +33,6 @@ jobs:
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       - name: Replace image name and Deploy to Kubernetes
         run: |
-          export IMAGE_NAME="${{ secrets.USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }}"
+          export IMAGE_NAME="${{ secrets.REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}"
           sed "s|IMAGE_SAMPLE|$IMAGE_NAME|g" deployment.yml > deployment_ready.yml
           kubectl apply -f deployment_ready.yml
