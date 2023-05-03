@@ -24,7 +24,7 @@ jobs:
         run: docker build -t ${{ secrets.REGISTRY }}/samplegropup/${{ env.PROJECT_NAME }} .
       - name: Push Docker Image
         run: |
-          docker push registry.gitlab.com/samplegropup/testproject
+          docker push registry.gitlab.com/samplegropup/${{ env.PROJECT_NAME }} 
       - name: Set up Kubeconfig
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBE }}
