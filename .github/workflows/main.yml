@@ -33,6 +33,6 @@ jobs:
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       - name: Replace image name and Deploy to Kubernetes
         run: |
-          export IMAGE_NAME="${{ secrets.REGISTRY }}/samplegropup/newimage"
+          export IMAGE_NAME="${{ secrets.REGISTRY }}/samplegropup/{{ env.PROJECT_NAME }}"
           sed "s|IMAGE_SAMPLE|$IMAGE_NAME|g" deployment.yml > deployment_ready.yml
           kubectl apply -f deployment_ready.yml
