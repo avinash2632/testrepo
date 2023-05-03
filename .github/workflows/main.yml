@@ -21,10 +21,10 @@ jobs:
         run: echo ${{ secrets.PASSWORD }} | docker login -u ${{ secrets.USERNAME }} --password-stdin ${{ secrets.REGISTRY }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.REGISTRY }}/samplegroup/${{ env.PROJECT_NAME }}:${{ github.sha }} .
+        run: docker build -t registry.gitlab.com/samplegropup/testproject .
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.REGISTRY }}/samplegroup/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          docker push registry.gitlab.com/samplegropup/testproject
       - name: Set up Kubeconfig
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBE }}
@@ -33,6 +33,6 @@ jobs:
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       - name: Replace image name and Deploy to Kubernetes
         run: |
-          export IMAGE_NAME="${{ secrets.REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}"
+          export IMAGE_NAME="registry.gitlab.com/samplegropup/testproject"
           sed "s|IMAGE_SAMPLE|$IMAGE_NAME|g" deployment.yml > deployment_ready.yml
           kubectl apply -f deployment_ready.yml
