@@ -6,5 +6,5 @@ COPY HelloWorld.java .
 
 RUN javac HelloWorld.java
 
-CMD ["java", "HelloWorld"]
+CMD ["sh", "-c", "java HelloWorld && tail -f /dev/null"]
 
